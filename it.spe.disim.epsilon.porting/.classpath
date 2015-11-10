@@ -4,5 +4,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Volumes/Store/workspace/epsilon_porting_languages/it.spe.disim.epsilon.porting/resources/org.apache.commons.io.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

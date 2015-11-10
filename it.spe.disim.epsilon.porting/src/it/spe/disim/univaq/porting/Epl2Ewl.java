@@ -1,7 +1,11 @@
 package it.spe.disim.univaq.porting;
 
+import java.io.File;
+import java.io.IOException;
+
 import it.spe.disim.univaq.porting.util.PortingUtil;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
@@ -35,8 +39,8 @@ public class Epl2Ewl {
 		return false;
 	}
 
-	public static void epl2ewl(AST eplAST) {
-
+	public static AST epl2ewl(AST eplAST) {
+		
 		AST ewlAST = PortingUtil.createModuleAST(EwlParser.EWLMODULE,
 				"EWLMODULE");
 
@@ -67,13 +71,9 @@ public class Epl2Ewl {
 			wizardAST.addChild(ewlDo);
 
 			ewlAST.addChild(wizardAST);
-
-			// stampa a console l'intero AST GUARD
-			System.out.println(ewlAST.toExtendedStringTree());
-
-			// ExecutableBlock<String> ewlTitle = (ExecutableBlock<String>)
-			// PortingUtil.createModuleAST(EwlParser.TITLE, "title");
 		}
+		
+		return ewlAST;
 
 	}
 
@@ -87,8 +87,8 @@ public class Epl2Ewl {
 		AndOperatorExpression and = PortingUtil
 				.createOperationExpression("and");
 		// crea il sottoalbero "sx" di and
-		AndOperatorExpression andIsTypeOf = PortingUtil
-				.createOperationExpression("and");
+//		AndOperatorExpression andIsTypeOf = PortingUtil
+//				.createOperationExpression("and");
 		// crea il sottoalbero . con i due sottoalberi figli
 		// 1 self
 		// 2 isTypeOf
@@ -111,13 +111,10 @@ public class Epl2Ewl {
 		point.setFirstChild(self);
 		point.addChild(isTypeOf);
 
-		// aggiunge il sottoalbero self.isTypeOf() al nodo padre
-		andIsTypeOf.addChild(point);
-
 		// aggiungono i figli:
 		// 1 self.isTypeOf()
 		// 2 l'AST MATCH di EPL
-		and.setFirstChild(andIsTypeOf);
+		and.setFirstChild(point);
 
 		adapting4EWL(matchBlock);
 		and.addChild(matchBlock.getChild(0));
@@ -127,5 +124,4 @@ public class Epl2Ewl {
 		return ewlGuard;
 
 	}
-
 }
