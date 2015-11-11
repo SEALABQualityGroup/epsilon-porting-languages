@@ -36,8 +36,12 @@ import org.eclipse.epsilon.ewl.parse.EwlParser;
 public class PortingUtil {
 
 	private static String basePath = "./src/";
+	private static Boolean evlSolution = true;
+	private static Boolean evlDetection = true;
+	private static Boolean ewlSolution = true;
+	private static Boolean ewlDetection = true;
 
-	public static ExecutableBlock<Boolean> createExecutableGuardBlock(int type,
+	public static ExecutableBlock<Boolean> createExecutableBooleanBlock(int type,
 			String text) {
 		ExecutableBlock<Boolean> exeBlock = new ExecutableBlock<Boolean>(
 				Boolean.class);
@@ -45,14 +49,14 @@ public class PortingUtil {
 		return exeBlock;
 	}
 
-	public static ExecutableBlock<Void> createExecutableDoBlock(int type,
+	public static ExecutableBlock<Void> createExecutableVoidBlock(int type,
 			String text) {
 		ExecutableBlock<Void> exeBlock = new ExecutableBlock<Void>(Void.class);
 		exeBlock.setToken((CommonToken) createToken(type, text));
 		return exeBlock;
 	}
 
-	public static ExecutableBlock<String> createExecutableTitleBlock(int type,
+	public static ExecutableBlock<String> createExecutableStringBlock(int type,
 			String text) {
 		ExecutableBlock<String> exeBlock = new ExecutableBlock<String>(
 				String.class);
@@ -110,7 +114,7 @@ public class PortingUtil {
 		return false;
 	}
 
-	public static AndOperatorExpression createOperationExpression(
+	public static AndOperatorExpression createAndOperatorExpression(
 			String operator) {
 		AndOperatorExpression and = new AndOperatorExpression();
 		and.setToken((CommonToken) createToken(EplParser.OPERATOR, operator));
@@ -148,50 +152,19 @@ public class PortingUtil {
 		return str;
 	}
 
-	public static String operationCallExp2String(OperationCallExpression exp) {
-		String toString = "";
-		for (AST child : exp.getChildren()) {
-			if (child.getChildCount() == 0) {
-				toString += child.getText() + ".";
-			} else {
-				toString += child.getText() + "(";
-				int i = 0;
-				for (AST parameter : child.getFirstChild().getChildren()) {
-					if (i == 0) {
-						toString += parameter.getText();
-						i++;
-					} else {
-						toString += ", " + parameter.getText();
-					}
-				}
-				toString += ")";
-			}
-		}
-		return toString;
-	}
-
-	public static String andOperationExpression2String(OperatorExpression exp) {
-		String toString = "";
-
-		toString += exp.toString();
-
-		return toString;
-	}
-
-	public static String ast2String(AST ast) {
+	public static String ASTRewrite(AST ast) {
 		String toString = "";
 
 		for (AST child : ast.getChildren()) {
-			toString += child.toString();
+			toString += child.rewrite();
 		}
 		return toString;
 	}
 
 	public static void ast2file(AST ast, String extension) {
-		
 		try {
 			FileUtils.writeStringToFile(new File(basePath + extension + "/basic."
-					+ extension), ast2String(ast));
+					+ extension), ASTRewrite(ast));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -248,7 +221,7 @@ public class PortingUtil {
 		return sts;
 	}
 
-	public static BooleanLiteral createBoolenLiteral(int type, String text) {
+	public static BooleanLiteral createBooleanLiteral(int type, String text) {
 		BooleanLiteral booleanLiteral = new BooleanLiteral();
 		booleanLiteral.setToken((CommonToken) createToken(EolParser.BOOLEAN, text));
 		return booleanLiteral;
@@ -271,5 +244,24 @@ public class PortingUtil {
 		Fix fixBlock = new Fix();
 		fixBlock.setToken(createToken(type, text));
 		return fixBlock;
+	}
+
+	public static boolean isEvlDetection() {
+		// TODO Auto-generated method stub
+		return evlDetection;
+	}
+	
+	public static boolean isEvlSolution() {
+		// TODO Auto-generated method stub
+		return evlSolution;
+	}
+	public static boolean isEwlDetection() {
+		// TODO Auto-generated method stub
+		return ewlDetection;
+	}
+	
+	public static boolean isEwlSolution() {
+		// TODO Auto-generated method stub
+		return ewlSolution;
 	}
 }

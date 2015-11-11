@@ -12,6 +12,7 @@ import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.epl.parse.EplParser;
@@ -49,22 +50,34 @@ public class Epl2Ewl {
 			Wizard wizardAST = PortingUtil
 					.createWizardAST(patternAST.getText());
 			
-			ExecutableBlock<Boolean> ewlGuard = createEwlGuard(patternAST);
+			ExecutableBlock<Boolean> ewlGuard = PortingUtil.createExecutableBooleanBlock(EwlParser.GUARD, "guard");
+			if(PortingUtil.isEwlDetection()){
+				ewlGuard = createEwlGuard(patternAST);
+			}else{
+				ewlGuard.addChild(null);
+			}
 
 			ExecutableBlock<String> ewlTitle = PortingUtil
-					.createExecutableTitleBlock(EwlParser.TITLE, "title");
+					.createExecutableStringBlock(EwlParser.TITLE, "title");
 
 			// Titolo del wizard
 			StringLiteral title = PortingUtil.createStringLiteral(patternAST
 					.getText());
 			ewlTitle.addChild(title);
-
-			// blocco do del wizard
-			ExecutableBlock<Void> ewlDo = PortingUtil.createExecutableDoBlock(
+			
+			//Solution
+			ExecutableBlock<Void> ewlDo = PortingUtil.createExecutableVoidBlock(
 					EwlParser.DO, "do");
+			
 			AST onMatchEpl = PortingUtil.getEplOnMatchBlock(patternAST);
-			adapting4EWL(onMatchEpl.getChild(0));
-			ewlDo.addChild(onMatchEpl.getChild(0));
+			if(PortingUtil.isEwlSolution() && onMatchEpl != null){
+				AST bak = onMatchEpl;
+				adapting4EWL(bak);
+				System.out.println(bak.getFirstChild().toExtendedStringTree());
+				ewlDo.addChild((StatementBlock)bak.getFirstChild());
+			}else{
+				ewlDo.addChild(null);
+			}
 
 			wizardAST.setFirstChild(ewlGuard);
 			wizardAST.addChild(ewlTitle);
@@ -82,10 +95,10 @@ public class Epl2Ewl {
 		// creo il sottoalbero GUARD
 		@SuppressWarnings("unchecked")
 		ExecutableBlock<Boolean> ewlGuard = (ExecutableBlock<Boolean>) PortingUtil
-				.createExecutableGuardBlock(EwlParser.GUARD, "guard");
+				.createExecutableBooleanBlock(EwlParser.GUARD, "guard");
 		// crea il primo sottoalbero di GUARD
 		AndOperatorExpression and = PortingUtil
-				.createOperationExpression("and");
+				.createAndOperatorExpression("and");
 		// crea il sottoalbero "sx" di and
 //		AndOperatorExpression andIsTypeOf = PortingUtil
 //				.createOperationExpression("and");

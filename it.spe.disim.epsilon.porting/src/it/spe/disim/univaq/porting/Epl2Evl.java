@@ -23,13 +23,14 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class Epl2Evl {
 
-	public static AST adapting4EWL(AST tree) {
+	public static AST adapting4EVL(AST tree) {
 		if (tree != null)
 			for (AST child : tree.getChildren()) {
+				System.out.println(child.getToken());
 				if (isMainRole(child)) {
 					child.getToken().setText("self");
 				}
-				adapting4EWL(child);
+				adapting4EVL(child);
 			}
 		return null;
 	}
@@ -44,8 +45,6 @@ public class Epl2Evl {
 
 	public static AST epl2evl(AST eplAST) {
 
-		String path = (eplAST.getBasename().split("\\."))[0] + ".ewl";
-
 		AST evlAST = PortingUtil.createModuleAST(EvlParser.EVLMODULE,
 				"EVLMODULE");
 
@@ -59,18 +58,21 @@ public class Epl2Evl {
 
 			Constraint constraint = PortingUtil.createConstraint(patternAST
 					.getText());
-
-			ExecutableBlock<Boolean> check = PortingUtil
-					.createExecutableGuardBlock(EvlParser.CHECK, "check");
 			
-			check.setFirstChild(createCheckBlock(patternAST));
+			ExecutableBlock<Boolean> check = PortingUtil
+					.createExecutableBooleanBlock(EvlParser.CHECK, "check");
+			//Detection
+			if(PortingUtil.isEvlDetection()){
+				check.setFirstChild(createCheckBlock(patternAST));
+			}else{
+				check.setFirstChild(null);
+			}
 			constraint.setFirstChild(check);
 			constraint.addChild(createMessageBlock(patternAST));
 			constraint.addChild(createFixBlock(patternAST));
 			constraintContextAST.setFirstChild(exp);
 			constraintContextAST.addChild(constraint);
 			evlAST.addChild(constraintContextAST);
-
 		}
 
 		return evlAST;
@@ -79,12 +81,17 @@ public class Epl2Evl {
 	
 	private static Fix createFixBlock(AST patternAST) {
 		Fix fixBlock = PortingUtil.createFixBlock(EvlParser.FIX, "fix");
-		ExecutableBlock<String> title = PortingUtil.createExecutableTitleBlock(EvlParser.TITLE, "title");
+		ExecutableBlock<String> title = PortingUtil.createExecutableStringBlock(EvlParser.TITLE, "title");
 		StringLiteral string = PortingUtil.createStringLiteral(patternAST.getText());
 		title.setFirstChild(string);
-		
-		ExecutableBlock<Void> doBlock = PortingUtil.createExecutableDoBlock(EvlParser.DO, "do");
-		doBlock.addChild(AstUtil.getChild(patternAST, EplParser.ONMATCH).getFirstChild());
+
+		//Solution
+		ExecutableBlock<Void> doBlock = PortingUtil.createExecutableVoidBlock(EvlParser.DO, "do");
+		AST bak = AstUtil.getChild(patternAST, EplParser.ONMATCH);
+		adapting4EVL(bak);
+		if(bak!= null && bak.getFirstChild() != null && PortingUtil.isEvlSolution()){
+			doBlock.addChild(bak.getFirstChild());
+		}
 		
 		fixBlock.setFirstChild(title);
 		fixBlock.addChild(doBlock);
@@ -93,7 +100,7 @@ public class Epl2Evl {
 	}
 	
 	private static ExecutableBlock<String> createMessageBlock(AST patternAST) {
-		ExecutableBlock<String> message = PortingUtil.createExecutableTitleBlock(EvlParser.MESSAGE, "message");
+		ExecutableBlock<String> message = PortingUtil.createExecutableStringBlock(EvlParser.MESSAGE, "message");
 		PlusOperatorExpression plus = PortingUtil.createPlusOperatorExpression(EvlParser.OPERATOR, "+");
 		StringLiteral string = PortingUtil.createStringLiteral(patternAST.getText()+" <"+PortingUtil.getMainRole(patternAST).getText()+"> ");
 		plus.setFirstChild(string);
@@ -116,7 +123,7 @@ public class Epl2Evl {
 		
 		ReturnStatement returnStatement = (ReturnStatement) PortingUtil
 				.createReturnStatement(EvlParser.RETURN, "return");
-		BooleanLiteral falseLiteral = PortingUtil.createBoolenLiteral(EvlParser.BOOLEAN, "false");
+		BooleanLiteral falseLiteral = PortingUtil.createBooleanLiteral(EvlParser.BOOLEAN, "false");
 		returnStatement.setFirstChild(falseLiteral);
 		
 		StatementBlock returnBlockFalse = PortingUtil.createStatementBlock(
@@ -124,7 +131,7 @@ public class Epl2Evl {
 		returnBlockFalse.setFirstChild(returnStatement);
 		ifStatement.addChild(returnBlockFalse);
 		
-		BooleanLiteral trueLiteral = PortingUtil.createBoolenLiteral(EvlParser.BOOLEAN, "true");
+		BooleanLiteral trueLiteral = PortingUtil.createBooleanLiteral(EvlParser.BOOLEAN, "true");
 		Statement statementTrue = PortingUtil.createReturnStatement(EvlParser.RETURN, "return");
 		statementTrue.setFirstChild(trueLiteral);
 		

@@ -15,16 +15,18 @@ import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 import org.eclipse.epsilon.ewl.EwlModule;
+import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 
-public class MainTestPeo {
+
+public class MainTest {
 
 	public static void main(String[] args) throws URISyntaxException, Exception {
-		MainTestPeo test = new MainTestPeo();
+		MainTest test = new MainTest();
 		EplModule eplM = new EplModule();
 		eplM.parse(test.getFileURI("/epl/basic.epl"));
 		
-		EvlModule evlM = new EvlModule();
-		evlM.parse(test.getFileURI("/evl/basic.evl"));
+		//EvlModule evlM = new EvlModule();
+		//evlM.parse(test.getFileURI("/evl/basic.evl"));
 		
 //		System.out.println(evlM.getAst().getFirstChild().getFirstChild().getToken().toString());
 //		System.out.println(AstUtil.getChild(evlM.getAst().getFirstChild().getSecondChild(), EvlParser.MESSAGE).getToken());
@@ -35,12 +37,12 @@ public class MainTestPeo {
 		
 		AST evlAST = Epl2Evl.epl2evl(eplAST);
 		
+		
 //		System.out.println(ewlAST.toExtendedStringTree());
 		
 //		System.out.println(evlAST.toExtendedStringTree());
 		
-		
-		//PortingUtil.ast2file(ewlAST, "ewl");
+		PortingUtil.ast2file(ewlAST, "ewl");
 		PortingUtil.ast2file(evlAST, "evl");
 		
 	}

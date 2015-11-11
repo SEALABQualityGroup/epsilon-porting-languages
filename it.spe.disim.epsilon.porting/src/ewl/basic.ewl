@@ -1,0 +1,19 @@
+
+wizard Move_it_to_a_new_Component_deployed_to_a_new_Node { 
+	guard : 
+		self.isTypeOfisTypeOf  and self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  )	
+	title : "Move_it_to_a_new_Component_deployed_to_a_new_Node"	
+	do{
+		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
+		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
+	}
+ }
+wizard Two { 
+	guard : 
+		self.isTypeOfisTypeOf  and self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  )	
+	title : "Two"	
+	do{
+		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
+		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
+	}
+ }
