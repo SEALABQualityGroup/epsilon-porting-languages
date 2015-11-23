@@ -19,26 +19,7 @@ import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
-public class Epl2Ewl {
-
-	public static AST adapting4EWL(AST tree) {
-		if (tree != null)
-			for (AST child : tree.getChildren()) {
-				if (isMainRole(child)) {
-					child.getToken().setText("self");
-				}
-				adapting4EWL(child);
-			}
-		return null;
-	}
-
-	public static boolean isMainRole(AST ast) {
-		if ((ast.getToken().getType() == 19 || ast.getToken().getType() == 63)
-				&& ast.getToken().getText().equals("mainRole")) {
-			return true;
-		}
-		return false;
-	}
+public class Epl2Ewl extends Exl2Eql{
 
 	public static AST epl2ewl(AST eplAST) {
 		
@@ -73,7 +54,6 @@ public class Epl2Ewl {
 			if(PortingUtil.isEwlSolution() && onMatchEpl != null){
 				AST bak = onMatchEpl;
 				adapting4EWL(bak);
-				System.out.println(bak.getFirstChild().toExtendedStringTree());
 				ewlDo.addChild((StatementBlock)bak.getFirstChild());
 			}else{
 				ewlDo.addChild(null);

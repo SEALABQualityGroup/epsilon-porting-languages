@@ -1,7 +1,9 @@
 context Operation{
+	
+	
 	critique Move_it_to_a_new_Component_deployed_to_a_new_Node{ 
 	check{
-		if( self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  ) ){
+		if( self.F_resDemand()  and self.F_probExec()  and self.F_resDemand()  and ( self.F_T()  or self.F_maxHwUtil()) ){
 			return false;
 
 	}
@@ -11,38 +13,19 @@ context Operation{
 		message :"Move_it_to_a_new_Component_deployed_to_a_new_Node <Operation> "+self.name
 
 		fix{
-	
-	title : "Move_it_to_a_new_Component_deployed_to_a_new_Node"
-	
-	do{
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-	}
-	}
-
-	}
-} 
-context Operation{
-	critique Two{ 
-	check{
-		if( self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  ) ){
-			return false;
-
-	}
-			return true;
-
-	}
-		message :"Two <Operation> "+self.name
-
+			title : "Move_it_to_a_new_Component_deployed_to_a_new_Node"
+			do{
+				self.moveToNewComponentDeployedOnNewNode(); 
+				self.moveToNewComponentDeployedOnNewNode(); 
+			}
+		}
+		
 		fix{
-	
-	title : "Two"
-	
-	do{
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-	}
-	}
+			title : "fix2"
+			do{
+				self.moveToNewComponentDeployedOnNewNode(); 
+			}
+		}
 
 	}
 } 

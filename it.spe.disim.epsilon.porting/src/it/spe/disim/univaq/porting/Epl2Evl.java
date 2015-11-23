@@ -21,27 +21,7 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.Fix;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class Epl2Evl {
-
-	public static AST adapting4EVL(AST tree) {
-		if (tree != null)
-			for (AST child : tree.getChildren()) {
-				System.out.println(child.getToken());
-				if (isMainRole(child)) {
-					child.getToken().setText("self");
-				}
-				adapting4EVL(child);
-			}
-		return null;
-	}
-
-	public static boolean isMainRole(AST ast) {
-		if ((ast.getToken().getType() == 19 || ast.getToken().getType() == 63)
-				&& ast.getToken().getText().equals("mainRole")) {
-			return true;
-		}
-		return false;
-	}
+public class Epl2Evl extends Exl2Eql{
 
 	public static AST epl2evl(AST eplAST) {
 
@@ -88,7 +68,7 @@ public class Epl2Evl {
 		//Solution
 		ExecutableBlock<Void> doBlock = PortingUtil.createExecutableVoidBlock(EvlParser.DO, "do");
 		AST bak = AstUtil.getChild(patternAST, EplParser.ONMATCH);
-		adapting4EVL(bak);
+		adapting4EWL(bak);
 		if(bak!= null && bak.getFirstChild() != null && PortingUtil.isEvlSolution()){
 			doBlock.addChild(bak.getFirstChild());
 		}

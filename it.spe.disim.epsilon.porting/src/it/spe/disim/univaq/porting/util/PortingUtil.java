@@ -24,6 +24,8 @@ import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.epl.dom.Pattern;
+import org.eclipse.epsilon.epl.dom.Role;
 import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -171,6 +173,16 @@ public class PortingUtil {
 		}
 	}
 	
+	public static void ast2file(AST ast, String filename, String extension) {
+		try {
+			FileUtils.writeStringToFile(new File(basePath + extension + "/"+filename+"."
+					+ extension), ASTRewrite(ast));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/*************EVL*********************/
 	
 	public static ConstraintContext createConstaintContext(String c){
@@ -263,5 +275,18 @@ public class PortingUtil {
 	public static boolean isEwlSolution() {
 		// TODO Auto-generated method stub
 		return ewlSolution;
+	}
+
+	public static Pattern createPattern(String text) {
+		Pattern pattern = new Pattern();
+		pattern.setToken(createToken(EplParser.PATTERN, text));
+		System.out.println(pattern.toExtendedStringTree());
+		return pattern;
+	}
+
+	public static Role createRole(int type, String text) {
+		Role role = new Role();
+		role.setToken(createToken(type, text));
+		return role;
 	}
 }
