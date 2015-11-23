@@ -26,7 +26,6 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 public class Evl2Epl extends Exl2Eql {
 
 	public static AST evl2epl(AST evlAST) {
-		
 
 		AST eplAST = PortingUtil.createModuleAST(EplParser.EPLMODULE,
 				"EPLMODULE");
@@ -47,7 +46,6 @@ public class Evl2Epl extends Exl2Eql {
 				}
 			}
 		}
-		System.out.println(eplAST.toExtendedStringTree());
 		return eplAST;
 	}
 	

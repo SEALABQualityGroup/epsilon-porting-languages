@@ -1,18 +1,17 @@
 wizard Move_it_to_a_new_Component_deployed_to_a_new_Node{
 guard :
-self.isTypeOf(Operation) and self.F_resDemand() and self.F_probExec() and self.F_resDemand(th_maxResDemand, par1, par2) and (self.F_T(th_SthReq) or self.F_maxHwUtil(th_maxHwUtil))
-title : "Move_it_to_a_new_Component_deployed_to_a_new_Node"
+self.isTypeOf(Operation) and self.F_resDemand() and self.F_probExec() and self.F_resDemand() and (self.F_T() or self.F_maxHwUtil())
+title : " Move_it_to_a_new_Component_deployed_to_a_new_Node"
 do{
 self.moveToNewComponentDeployedOnNewNode();
 self.moveToNewComponentDeployedOnNewNode();
-
-}}
-wizard Two{
+}
+}
+wizard fix2{
 guard :
-self.isTypeOf(Operation) and self.F_resDemand() and self.F_probExec() and self.F_resDemand(th_maxResDemand, par1, par2) and (self.F_T(th_SthReq) or self.F_maxHwUtil(th_maxHwUtil))
-title : "Two"
+self.isTypeOf(Operation) and self.F_resDemand() and self.F_probExec() and self.F_resDemand() and (self.F_T() or self.F_maxHwUtil())
+title : " fix2"
 do{
 self.moveToNewComponentDeployedOnNewNode();
-self.moveToNewComponentDeployedOnNewNode();
-
-}}
+}
+}

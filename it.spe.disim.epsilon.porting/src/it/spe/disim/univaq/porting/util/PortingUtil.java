@@ -72,7 +72,7 @@ public class PortingUtil {
 		return module;
 	}
 
-	public static Wizard createWizardAST(String text) {
+	public static Wizard createWizard(String text) {
 		Wizard wizard = new Wizard();
 		wizard.setToken((CommonToken) createToken(EwlParser.WIZARD, text));
 		return wizard;
@@ -280,7 +280,6 @@ public class PortingUtil {
 	public static Pattern createPattern(String text) {
 		Pattern pattern = new Pattern();
 		pattern.setToken(createToken(EplParser.PATTERN, text));
-		System.out.println(pattern.toExtendedStringTree());
 		return pattern;
 	}
 

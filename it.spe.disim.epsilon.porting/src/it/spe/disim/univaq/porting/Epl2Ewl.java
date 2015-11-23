@@ -19,22 +19,22 @@ import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
-public class Epl2Ewl extends Exl2Eql{
+public class Epl2Ewl extends Exl2Eql {
 
 	public static AST epl2ewl(AST eplAST) {
-		
+
 		AST ewlAST = PortingUtil.createModuleAST(EwlParser.EWLMODULE,
 				"EWLMODULE");
 
 		for (AST patternAST : AstUtil.getChildren(eplAST, EplParser.PATTERN)) {
-			
-			Wizard wizardAST = PortingUtil
-					.createWizardAST(patternAST.getText());
-			
-			ExecutableBlock<Boolean> ewlGuard = PortingUtil.createExecutableBooleanBlock(EwlParser.GUARD, "guard");
-			if(PortingUtil.isEwlDetection()){
+
+			Wizard wizardAST = PortingUtil.createWizard(patternAST.getText());
+
+			ExecutableBlock<Boolean> ewlGuard = PortingUtil
+					.createExecutableBooleanBlock(EwlParser.GUARD, "guard");
+			if (PortingUtil.isEwlDetection()) {
 				ewlGuard = createEwlGuard(patternAST);
-			}else{
+			} else {
 				ewlGuard.addChild(null);
 			}
 
@@ -45,17 +45,17 @@ public class Epl2Ewl extends Exl2Eql{
 			StringLiteral title = PortingUtil.createStringLiteral(patternAST
 					.getText());
 			ewlTitle.addChild(title);
-			
-			//Solution
-			ExecutableBlock<Void> ewlDo = PortingUtil.createExecutableVoidBlock(
-					EwlParser.DO, "do");
-			
+
+			// Solution
+			ExecutableBlock<Void> ewlDo = PortingUtil
+					.createExecutableVoidBlock(EwlParser.DO, "do");
+
 			AST onMatchEpl = PortingUtil.getEplOnMatchBlock(patternAST);
-			if(PortingUtil.isEwlSolution() && onMatchEpl != null){
+			if (PortingUtil.isEwlSolution() && onMatchEpl != null) {
 				AST bak = onMatchEpl;
 				adapting4EWL(bak);
-				ewlDo.addChild((StatementBlock)bak.getFirstChild());
-			}else{
+				ewlDo.addChild((StatementBlock) bak.getFirstChild());
+			} else {
 				ewlDo.addChild(null);
 			}
 
@@ -65,7 +65,7 @@ public class Epl2Ewl extends Exl2Eql{
 
 			ewlAST.addChild(wizardAST);
 		}
-		
+
 		return ewlAST;
 
 	}
@@ -80,8 +80,8 @@ public class Epl2Ewl extends Exl2Eql{
 		AndOperatorExpression and = PortingUtil
 				.createAndOperatorExpression("and");
 		// crea il sottoalbero "sx" di and
-//		AndOperatorExpression andIsTypeOf = PortingUtil
-//				.createOperationExpression("and");
+		// AndOperatorExpression andIsTypeOf = PortingUtil
+		// .createOperationExpression("and");
 		// crea il sottoalbero . con i due sottoalberi figli
 		// 1 self
 		// 2 isTypeOf
@@ -113,7 +113,7 @@ public class Epl2Ewl extends Exl2Eql{
 		and.addChild(matchBlock.getChild(0));
 
 		ewlGuard.addChild(and);
-		
+
 		return ewlGuard;
 
 	}
