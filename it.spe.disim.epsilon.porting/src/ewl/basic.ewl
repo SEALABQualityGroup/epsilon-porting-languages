@@ -1,19 +1,22 @@
-
-wizard Move_it_to_a_new_Component_deployed_to_a_new_Node { 
+//FIX 1
+wizard newComponent {
 	guard : 
-		self.isTypeOfisTypeOf  and self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  )	
-	title : "Move_it_to_a_new_Component_deployed_to_a_new_Node"	
-	do{
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-	}
- }
-wizard Two { 
+		self.isTypeOf(Operation) and
+			self.F_probExec() and self.F_resDemand() and
+						( self.F_T() or self.F_maxHwUtil() ) 			
+	title : "Move it to a new Component deployed to a new Node"
+	do {
+ 		self.moveToNewComponentDeployedOnNewNode();
+	} 
+}
+//FIX 2
+wizard newComponent_N_L_U_Node {
 	guard : 
-		self.isTypeOfisTypeOf  and self.F_resDemandF_resDemand  and self.F_probExecF_probExec  and self.F_resDemandF_resDemand  and ( self.F_TF_T  or self.F_maxHwUtilF_maxHwUtil  )	
-	title : "Two"	
-	do{
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-		self.moveToNewComponentDeployedOnNewNodemoveToNewComponentDeployedOnNewNode; 
-	}
- }
+		self.isTypeOf(Operation) and
+			self.F_probExec() and self.F_resDemand() and
+						( self.F_T() or self.F_maxHwUtil() )  		
+	title : "Move it to a new Component deployed to the less used neighbour Node"
+	do {
+ 		self.moveToNewComponentDeployedOnNearLessUsedNode();
+	} 
+}
