@@ -1,12 +1,8 @@
 package it.spe.disim.univaq.porting.epl2exl;
 
-import java.io.File;
-import java.io.IOException;
-
 import it.spe.disim.univaq.porting.Exl2Eql;
 import it.spe.disim.univaq.porting.util.PortingUtil;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;

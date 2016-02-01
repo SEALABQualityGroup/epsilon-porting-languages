@@ -42,14 +42,16 @@ public class MainTest {
 		EwlModule ewlM = new EwlModule();
 		ewlM.parse(test.getFileURI("/ewl/basic.ewl"));
 		AST ewlAST = ewlM.getAst();
-		AST eplASTGen = Ewl2Epl.ewl2epl(ewlAST);
-		System.out.println(PortingUtil.ASTRewrite(eplASTGen));
-		//PortingUtil.ast2file(eplASTGen, "ewl2epl", "epl");
-//		ewlAST = ewlM.getAst();
-//		AST evlASTGen = Ewl2Evl.ewl2evl(ewlAST);
+
+//		AST eplASTGen = Ewl2Epl.ewl2epl(ewlAST);
+//		System.out.println(PortingUtil.ASTRewrite(eplASTGen));
+//		PortingUtil.ast2file(eplASTGen, "ewl2epl", "epl");
+		
+		ewlAST = ewlM.getAst();
+		AST evlASTGen = Ewl2Evl.ewl2evl(ewlAST);
 //		System.out.println(evlASTGen.toExtendedStringTree());
 //		System.out.println(evlASTGen.getFirstChild().rewrite());
-//		PortingUtil.ast2file(evlASTGen, "ewl2evl", "evl");
+		PortingUtil.ast2file(evlASTGen, "ewl2evl", "evl");
 
 	}
 
