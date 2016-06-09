@@ -35,15 +35,10 @@ public class Evl2Ewl extends Exl2Eql {
 
 		AST ewlAST = PortingUtil.createModuleAST(EwlParser.EWLMODULE,
 				"EWLMODULE");
-
 		for (AST context : AstUtil.getChildren(evlAST, EvlParser.CONTEXT)) {
-			for (AST critique : AstUtil
-					.getChildren(context, EvlParser.CRITIQUE)) {
+			for (AST critique : AstUtil.getChildren(context, EvlParser.CRITIQUE)) {
 				for (AST fix : AstUtil.getChildren(critique, EvlParser.FIX)) {
-					
-					Wizard wizard = PortingUtil.createWizard(AstUtil
-							.getChild(fix, EvlParser.TITLE).getFirstChild()
-							.getText());
+					Wizard wizard = PortingUtil.createWizard(AstUtil.getChild(fix, EvlParser.TITLE).getFirstChild().getText());
 					wizard.setFirstChild(createGuardBlock(critique));
 					ExecutableBlock<Void> doBlock = (ExecutableBlock<Void>) AstUtil.getChild(fix, EvlParser.DO);
 					ExecutableBlock<String> titleBlock = (ExecutableBlock<String>) AstUtil.getChild(fix, EvlParser.TITLE);

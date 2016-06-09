@@ -79,9 +79,7 @@ public class Ewl2Evl extends Exl2Eql {
 					if(parent instanceof OperationCallExpression){
 						if(parent.getSecondChild() instanceof NameExpression && parent.getSecondChild().getText().equals("isTypeOf")){
 							returnValue = parent.getSecondChild().getFirstChild().getFirstChild();
-							System.out.println(returnValue.toExtendedStringTree());
 							return findContext(parent.getSecondChild().getFirstChild().getFirstChild(), returnValue);
-							//return returnValue;
 						}
 					}
 				}

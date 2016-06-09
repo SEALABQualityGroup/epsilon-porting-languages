@@ -2,6 +2,7 @@ package it.spe.disim.univaq.porting.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 import org.antlr.runtime.CommonToken;
@@ -15,7 +16,6 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.IfStatement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
-import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.PlusOperatorExpression;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.ReturnStatement;
@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
 import org.eclipse.epsilon.epl.parse.EplParser;
-import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.Fix;
@@ -74,7 +73,7 @@ public class PortingUtil {
 
 	public static Wizard createWizard(String text) {
 		Wizard wizard = new Wizard();
-		wizard.setToken((CommonToken) createToken(EwlParser.WIZARD, text));
+		wizard.setToken((CommonToken) createToken(EwlParser.WIZARD, text.replaceAll("\\s+","_")));
 		return wizard;
 	}
 
@@ -168,7 +167,6 @@ public class PortingUtil {
 			FileUtils.writeStringToFile(new File(basePath + extension + "/basic."
 					+ extension), ASTRewrite(ast));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -178,7 +176,6 @@ public class PortingUtil {
 			FileUtils.writeStringToFile(new File(basePath + extension + "/"+filename+"."
 					+ extension), ASTRewrite(ast));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -259,27 +256,23 @@ public class PortingUtil {
 	}
 
 	public static boolean isEvlDetection() {
-		// TODO Auto-generated method stub
 		return evlDetection;
 	}
 	
 	public static boolean isEvlSolution() {
-		// TODO Auto-generated method stub
 		return evlSolution;
 	}
 	public static boolean isEwlDetection() {
-		// TODO Auto-generated method stub
 		return ewlDetection;
 	}
 	
 	public static boolean isEwlSolution() {
-		// TODO Auto-generated method stub
 		return ewlSolution;
 	}
 
 	public static Pattern createPattern(String text) {
 		Pattern pattern = new Pattern();
-		pattern.setToken(createToken(EplParser.PATTERN, text));
+		pattern.setToken(createToken(EplParser.PATTERN, text.replaceAll("\\s+","_")));
 		return pattern;
 	}
 
