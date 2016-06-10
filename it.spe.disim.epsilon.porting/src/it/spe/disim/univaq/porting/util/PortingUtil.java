@@ -159,6 +159,7 @@ public class PortingUtil {
 		for (AST child : ast.getChildren()) {
 			toString += child.rewrite();
 		}
+		System.out.println(toString);
 		return toString;
 	}
 

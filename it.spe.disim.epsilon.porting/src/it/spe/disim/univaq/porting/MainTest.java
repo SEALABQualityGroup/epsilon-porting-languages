@@ -33,7 +33,7 @@ public class MainTest {
 		EvlModule evlM = new EvlModule();
 		evlM.parse(test.getFileURI("/evl/evl/AP-UML-MARTE.evl"));
 		AST evlAST = evlM.getAst();
-		eplASTGen = Evl2Epl.evl2epl(evlAST);		
+		eplASTGen = Evl2Epl.evl2epl(evlAST);
 		PortingUtil.ast2file(eplASTGen, "evl2epl", "epl");
 		
 		evlM.parse(test.getFileURI("/evl/evl/AP-UML-MARTE.evl"));

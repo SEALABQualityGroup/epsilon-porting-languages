@@ -34,7 +34,7 @@ public class Evl2Epl extends Exl2Eql {
 		for(AST context : AstUtil.getChildren(evlAST, EvlParser.CONTEXT)){
 			for(AST critique : AstUtil.getChildren(context, EvlParser.CRITIQUE)){
 				for(AST fix : AstUtil.getChildren(critique, EvlParser.FIX)){
-					Pattern pattern = PortingUtil.createPattern(AstUtil.getChild(fix, EvlParser.TITLE).getFirstChild().getText());
+					Pattern pattern = PortingUtil.createPattern(critique.getText());
 					Role role = PortingUtil.createRole(EplParser.ROLE, ":");
 					NameExpression mainRole = PortingUtil.createNameExpression("mainRole");
 					TypeExpression typeExp = (TypeExpression) context.getFirstChild();
